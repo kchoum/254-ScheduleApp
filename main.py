@@ -40,37 +40,37 @@ level_entry.grid(row=1, column=1, sticky="W")
 
 # create busy time entry
 customtkinter.CTkLabel(master=inputframe, text="Busy Times", font=("Roboto", 12)).grid(row=2, column=0)
-busy_entry = customtkinter.CTkTimeEntry(master=inputframe)
+busy_entry = tk.Entry(master=inputframe)
 busy_entry.grid(row=2, column=1)
 
 # create daily hours entry
-customtkinter.CTkLabel(master=inputframe, text="Monday Hours", font=("Roboto", 12)).grid(row=2, column=0)
-mon_entry = customtkinter.CTkTimeEntry(master=inputframe)
-mon_entry.grid(row=2, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Monday Hours", font=("Roboto", 12)).grid(row=3, column=0)
+mon_entry = tk.Entry(master=inputframe)
+mon_entry.grid(row=3, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Tuesday Hours", font=("Roboto", 12)).grid(row=3, column=0)
-tues_entry = customtkinter.CTkTimeEntry(master=inputframe)
-tues_entry.grid(row=3, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Tuesday Hours", font=("Roboto", 12)).grid(row=4, column=0)
+tues_entry = tk.Entry(master=inputframe)
+tues_entry.grid(row=4, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Wednesday Hours", font=("Roboto", 12)).grid(row=4, column=0)
-weds_entry = customtkinter.CTkTimeEntry(master=inputframe)
-weds_entry.grid(row=4, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Wednesday Hours", font=("Roboto", 12)).grid(row=5, column=0)
+weds_entry = tk.Entry(master=inputframe)
+weds_entry.grid(row=5, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Thursday Hours", font=("Roboto", 12)).grid(row=5, column=0)
-thurs_entry = customtkinter.CTkTimeEntry(master=inputframe)
-thurs_entry.grid(row=5, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Thursday Hours", font=("Roboto", 12)).grid(row=6, column=0)
+thurs_entry = tk.Entry(master=inputframe)
+thurs_entry.grid(row=6, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Friday Hours", font=("Roboto", 12)).grid(row=6, column=0)
-fri_entry = customtkinter.CTkTimeEntry(master=inputframe)
-fri_entry.grid(row=6, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Friday Hours", font=("Roboto", 12)).grid(row=7, column=0)
+fri_entry = tk.Entry(master=inputframe)
+fri_entry.grid(row=7, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Saturday Hours", font=("Roboto", 12)).grid(row=7, column=0)
-sat_entry = customtkinter.CTkTimeEntry(master=inputframe)
-sat_entry.grid(row=7, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Saturday Hours", font=("Roboto", 12)).grid(row=8, column=0)
+sat_entry = tk.Entry(master=inputframe)
+sat_entry.grid(row=8, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Sunday Hours", font=("Roboto", 12)).grid(row=8, column=0)
-sun_entry = customtkinter.CTkTimeEntry(master=inputframe)
-sun_entry.grid(row=8, column=1)
+customtkinter.CTkLabel(master=inputframe, text="Sunday Hours", font=("Roboto", 12)).grid(row=9, column=0)
+sun_entry = tk.Entry(master=inputframe)
+sun_entry.grid(row=9, column=1)
 
 
 # get the information from the entry fields
