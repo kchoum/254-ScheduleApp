@@ -3,7 +3,6 @@ from tkinter import ttk
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
-import customtkinter
 
 # Define custom tkinter theme
 customtkinter.set_appearance_mode("dark")
@@ -15,60 +14,60 @@ inputwindow = customtkinter.CTk()
 inputwindow.title("User Info")
 
 # Define input frame
-inputframe = customtkinter.CTkFrame(master=inputwindow)
-inputframe.pack(fill="both", expand=True)
+inputwindow = tk.Tk()
+inputwindow.title("User Info")
 
 # create student entry fields
-customtkinter.CTkLabel(master=inputframe,
+tk.Label(master=inputframe,
 text="Student Name",
 font=("Roboto", 12)).grid(row=0, column=0)
-name_entry = customtkinter.CTkEntry(master=inputframe, placeholder_text="Student Name")
+name_entry = tk.Entry(master=inputframe)
 name_entry.grid(row=0, column=1, sticky="W")
 
 # create intensity entry dropdown
 def optionmenu_callback(choice):
-    print("optionmenu dropdown clicked:", choice)
+print("optionmenu dropdown clicked:", choice)
 
-customtkinter.CTkLabel(master=inputframe,
+tk.Label(master=inputframe,
 text="Study Intensity",
 font=("Roboto", 12)).grid(row=1, column=0)
-optionmenu_var = customtkinter.StringVar(value="low")
-level_entry = customtkinter.CTkOptionMenu(master=inputframe,
+optionmenu_var = tk.StringVar(value="low")
+level_entry = tk.OptionMenu(master=inputframe,
 values=["low", "medium", "high"],
 command=optionmenu_callback, variable=optionmenu_var)
 level_entry.grid(row=1, column=1, sticky="W")
 
 # create busy time entry
-customtkinter.CTkLabel(master=inputframe, text="Busy Times", font=("Roboto", 12)).grid(row=2, column=0)
+tk.Label(master=inputframe, text="Busy Times", font=("Roboto", 12)).grid(row=2, column=0)
 busy_entry = tk.Entry(master=inputframe)
 busy_entry.grid(row=2, column=1)
 
 # create daily hours entry
-customtkinter.CTkLabel(master=inputframe, text="Monday Hours", font=("Roboto", 12)).grid(row=3, column=0)
+tk.Label(master=inputframe, text="Monday Hours", font=("Roboto", 12)).grid(row=3, column=0)
 mon_entry = tk.Entry(master=inputframe)
 mon_entry.grid(row=3, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Tuesday Hours", font=("Roboto", 12)).grid(row=4, column=0)
+tk.Label(master=inputframe, text="Tuesday Hours", font=("Roboto", 12)).grid(row=4, column=0)
 tues_entry = tk.Entry(master=inputframe)
 tues_entry.grid(row=4, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Wednesday Hours", font=("Roboto", 12)).grid(row=5, column=0)
+tk.Label(master=inputframe, text="Wednesday Hours", font=("Roboto", 12)).grid(row=5, column=0)
 weds_entry = tk.Entry(master=inputframe)
 weds_entry.grid(row=5, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Thursday Hours", font=("Roboto", 12)).grid(row=6, column=0)
+tk.Label(master=inputframe, text="Thursday Hours", font=("Roboto", 12)).grid(row=6, column=0)
 thurs_entry = tk.Entry(master=inputframe)
 thurs_entry.grid(row=6, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Friday Hours", font=("Roboto", 12)).grid(row=7, column=0)
+tk.Label(master=inputframe, text="Friday Hours", font=("Roboto", 12)).grid(row=7, column=0)
 fri_entry = tk.Entry(master=inputframe)
 fri_entry.grid(row=7, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Saturday Hours", font=("Roboto", 12)).grid(row=8, column=0)
+tk.Label(master=inputframe, text="Saturday Hours", font=("Roboto", 12)).grid(row=8, column=0)
 sat_entry = tk.Entry(master=inputframe)
 sat_entry.grid(row=8, column=1)
 
-customtkinter.CTkLabel(master=inputframe, text="Sunday Hours", font=("Roboto", 12)).grid(row=9, column=0)
+tk.Label(master=inputframe, text="Sunday Hours", font=("Roboto", 12)).grid(row=9, column=0)
 sun_entry = tk.Entry(master=inputframe)
 sun_entry.grid(row=9, column=1)
 
