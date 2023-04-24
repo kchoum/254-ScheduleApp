@@ -38,6 +38,11 @@ values=["low", "medium", "high"],
 command=optionmenu_callback, variable=optionmenu_var)
 level_entry.grid(row=1, column=1, sticky="W")
 
+# create busy time entry
+customtkinter.CTkLabel(master=inputframe, text="Busy Times", font=("Roboto", 12)).grid(row=2, column=0)
+busy_entry = customtkinter.CTkTimeEntry(master=inputframe)
+busy_entry.grid(row=2, column=1)
+
 # create daily hours entry
 customtkinter.CTkLabel(master=inputframe, text="Monday Hours", font=("Roboto", 12)).grid(row=2, column=0)
 mon_entry = customtkinter.CTkTimeEntry(master=inputframe)
