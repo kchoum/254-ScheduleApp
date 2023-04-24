@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 import datetime
+import numpy as np
+import matplotlib.pyplot as plt
+import customtkinter
 
 # Define custom tkinter theme
 customtkinter.set_appearance_mode("dark")
@@ -17,22 +20,22 @@ inputframe.pack(fill="both", expand=True)
 
 # create student entry fields
 customtkinter.CTkLabel(master=inputframe,
-                       text="Student Name",
-                       font=("Roboto", 12)).grid(row=0, column=0)
+text="Student Name",
+font=("Roboto", 12)).grid(row=0, column=0)
 name_entry = customtkinter.CTkEntry(master=inputframe, placeholder_text="Student Name")
 name_entry.grid(row=0, column=1, sticky="W")
 
 # create intensity entry dropdown
 def optionmenu_callback(choice):
-    print("optionmenu dropdown clicked:", choice)
+print("optionmenu dropdown clicked:", choice)
 
 customtkinter.CTkLabel(master=inputframe,
-                       text="Study Intensity",
-                       font=("Roboto", 12)).grid(row=1, column=0)
+text="Study Intensity",
+font=("Roboto", 12)).grid(row=1, column=0)
 optionmenu_var = customtkinter.StringVar(value="low")
 level_entry = customtkinter.CTkOptionMenu(master=inputframe,
-                                          values=["low", "medium", "high"],
-                                          command=optionmenu_callback, variable=optionmenu_var)
+values=["low", "medium", "high"],
+command=optionmenu_callback, variable=optionmenu_var)
 level_entry.grid(row=1, column=1, sticky="W")
 
 # create daily hours entry
