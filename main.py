@@ -27,7 +27,7 @@ name_entry.grid(row=0, column=1, sticky="W")
 
 # create intensity entry dropdown
 def optionmenu_callback(choice):
-print("optionmenu dropdown clicked:", choice)
+    print("optionmenu dropdown clicked:", choice)
 
 customtkinter.CTkLabel(master=inputframe,
 text="Study Intensity",
