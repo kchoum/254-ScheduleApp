@@ -1,121 +1,154 @@
 import tkinter as tk
 from tkinter import ttk
-import datetime
-import numpy as np
-import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
 
-# Define custom tkinter theme
-customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("dark-blue")
+class Class:
+    def __init__(self, name, time, duration, importance):
+        self.name = name
+        self.time = time
+        self.duration = duration
+        self.importance = importance
 
-# Student Info Screen Functionality***********************************
-# create a Tkinter window
-inputwindow = customtkinter.CTk()
-inputwindow.title("User Info")
+class Scheduler:
+    def __init__(self):
+        self.classes = []
 
-# Define input frame
-inputwindow = tk.Tk()
-inputwindow.title("User Info")
+    def add_class(self, name, time, duration, importance):
+        new_class = Class(name, time, duration, importance)
+        self.classes.append(new_class)
 
-# create student entry fields
-tk.Label(master=inputframe,
-text="Student Name",
-font=("Roboto", 12)).grid(row=0, column=0)
-name_entry = tk.Entry(master=inputframe)
-name_entry.grid(row=0, column=1, sticky="W")
+    def schedule(self):
+        sorted_classes = sorted(self.classes, key=lambda x: x.time)
+        schedule = []
+        current_day = None
+        for c in sorted_classes:
+            if current_day is None or c.time.date() != current_day:
+                current_day = c.time.date()
+                schedule.append([])
+            schedule[-1].append(c)
+        return schedule
 
-# create intensity entry dropdown
-def optionmenu_callback(choice):
-print("optionmenu dropdown clicked:", choice)
+    def total_hours(self):
+        total_duration = timedelta()
+        total_classes = len(self.classes)
+        for c in self.classes:
+            total_duration += c.duration
+        return total_duration, total_classes
 
-tk.Label(master=inputframe,
-text="Study Intensity",
-font=("Roboto", 12)).grid(row=1, column=0)
-optionmenu_var = tk.StringVar(value="low")
-level_entry = tk.OptionMenu(master=inputframe,
-values=["low", "medium", "high"],
-command=optionmenu_callback, variable=optionmenu_var)
-level_entry.grid(row=1, column=1, sticky="W")
+    def study_hours(self, intensity):
+        study_hours = {}
+        for c in self.classes:
+            if c.importance not in study_hours:
+                study_hours[c.importance] = timedelta()
+            study_hours[c.importance] += c.duration
+        total_study_hours = sum(study_hours.values(), timedelta())
+        for k, v in study_hours.items():
+            study_hours[k] = v / total_study_hours * intensity
+        return study_hours
 
-# create busy time entry
-tk.Label(master=inputframe, text="Busy Times", font=("Roboto", 12)).grid(row=2, column=0)
-busy_entry = tk.Entry(master=inputframe)
-busy_entry.grid(row=2, column=1)
+class ScheduleGUI:
+    def __init__(self):
+        self.scheduler = Scheduler()
+        self.window = tk.Tk()
+        self.window.title("Class Scheduler")
+        self.create_widgets()
 
-# create daily hours entry
-tk.Label(master=inputframe, text="Monday Hours", font=("Roboto", 12)).grid(row=3, column=0)
-mon_entry = tk.Entry(master=inputframe)
-mon_entry.grid(row=3, column=1)
+    def create_widgets(self):
+        # Class input
+        class_frame = ttk.LabelFrame(self.window, text="Add Class")
+        class_frame.grid(column=0, row=0, padx=10, pady=5)
 
-tk.Label(master=inputframe, text="Tuesday Hours", font=("Roboto", 12)).grid(row=4, column=0)
-tues_entry = tk.Entry(master=inputframe)
-tues_entry.grid(row=4, column=1)
+        name_label = ttk.Label(class_frame, text="Name:")
+        name_label.grid(column=0, row=0, padx=5, pady=5, sticky=tk.W)
+        self.name_entry = ttk.Entry(class_frame)
+        self.name_entry.grid(column=1, row=0, padx=5, pady=5)
 
-tk.Label(master=inputframe, text="Wednesday Hours", font=("Roboto", 12)).grid(row=5, column=0)
-weds_entry = tk.Entry(master=inputframe)
-weds_entry.grid(row=5, column=1)
+        time_label = ttk.Label(class_frame, text="Time (YYYY-MM-DD HH:MM):")
+        time_label.grid(column=0, row=1, padx=5, pady=5, sticky=tk.W)
+        self.time_entry = ttk.Entry(class_frame)
+        self.time_entry.grid(column=1, row=1, padx=5, pady=5)
 
-tk.Label(master=inputframe, text="Thursday Hours", font=("Roboto", 12)).grid(row=6, column=0)
-thurs_entry = tk.Entry(master=inputframe)
-thurs_entry.grid(row=6, column=1)
+        duration_label = ttk.Label(class_frame, text="Duration (HH:MM):")
+        duration_label.grid(column=0, row=2, padx=5, pady=5, sticky=tk.W)
+        self.duration_entry = ttk.Entry(class_frame)
+        self.duration_entry.grid(column=1, row=2, padx=5, pady=5)
 
-tk.Label(master=inputframe, text="Friday Hours", font=("Roboto", 12)).grid(row=7, column=0)
-fri_entry = tk.Entry(master=inputframe)
-fri_entry.grid(row=7, column=1)
+        importance_label = ttk.Label(class_frame, text="Importance:")
+        importance_label.grid(column=0, row=3, padx=5, pady=5, sticky=tk.W)
+        self.importance_var = tk.StringVar(self.window)
+        self.importance_var.set("Low")
+        self.importance_dropdown = ttk.OptionMenu(class_frame, self.importance_var, "Low", "Medium", "High")
+        self.importance_dropdown.grid(column=1, row=3, padx=5, pady=5)
 
-tk.Label(master=inputframe, text="Saturday Hours", font=("Roboto", 12)).grid(row=8, column=0)
-sat_entry = tk.Entry(master=inputframe)
-sat_entry.grid(row=8, column=1)
+        add_button = ttk.Button(class_frame, text="Add Class", command=self.add_class)
+        add_button.grid(column=1, row=4, padx=5, pady=5)
 
-tk.Label(master=inputframe, text="Sunday Hours", font=("Roboto", 12)).grid(row=9, column=0)
-sun_entry = tk.Entry(master=inputframe)
-sun_entry.grid(row=9, column=1)
+        # Schedule output
+        schedule_frame = ttk.LabelFrame(self.window, text="Schedule")
+        schedule_frame.grid(column=0, row=1, padx=10, pady=5)
 
+        schedule_button = ttk.Button(schedule_frame, text="Generate Schedule", command=self.generate_schedule)
+        schedule_button.grid(column=0, row=0, padx=5, pady=5)
 
-# get the information from the entry fields
-name = name_entry.get()
+        total_hours_label = ttk.Label(schedule_frame, text="Total Class Hours:")
+        total_hours_label.grid(column=0, row=1, padx=5, pady=5)
+        self.total_hours_var = tk.StringVar(self.window)
+        self.total_hours_var.set("")
+        total_hours_output = ttk.Label(schedule_frame, textvariable=self.total_hours_var)
+        total_hours_output.grid(column=1, row=1, padx=5, pady=5)
 
-def VectorizeInputStream(time_intervals_str):
-    time_intervals_list = time_intervals_str.replace("(", "").replace(")", "").split(", ")
-    vectorized_time_intervals = np.empty((len(time_intervals_list), 2), dtype=int)
+        study_intensity_label = ttk.Label(schedule_frame, text="Selected Study Intensity:")
+        study_intensity_label.grid(column=0, row=2, padx=5, pady=5)
+        self.study_intensity_var = tk.StringVar(self.window)
+        self.study_intensity_var.set("Low")
+        study_intensity_dropdown = ttk.OptionMenu(schedule_frame, self.study_intensity_var, "Low", "Medium", "High")
+        study_intensity_dropdown.grid(column=1, row=2, padx=5, pady=5)
 
-    for i, interval in enumerate(time_intervals_list):
-        start_time_str, end_time_str = interval.split("-")
-        start_time = int(start_time_str)
-        end_time = int(end_time_str)
-        vectorized_time_intervals[i] = [start_time, end_time]
+        study_hours_button = ttk.Button(schedule_frame, text="Calculate Study Hours", command=self.calculate_study_hours)
+        study_hours_button.grid(column=0, row=3, padx=5, pady=5)
+        self.study_hours_var = tk.StringVar(self.window)
+        self.study_hours_var.set("")
+        study_hours_output = ttk.Label(schedule_frame, textvariable=self.study_hours_var)
+        study_hours_output.grid(column=1, row=3, padx=5, pady=5)
 
-    return vectorized_time_intervals
+    def add_class(self):
+        name = self.name_entry.get()
+        time_str = self.time_entry.get()
+        duration_str = self.duration_entry.get()
+        importance = self.importance_var.get()
+        try:
+            time = datetime.strptime(time_str, "%Y-%m-%d %H:%M")
+            duration = timedelta(hours=int(duration_str.split(":")[0]), minutes=int(duration_str.split(":")[1]))
+        except ValueError:
+            tk.messagebox.showerror("Error", "Invalid input")
+            return
+        self.scheduler.add_class(name, time, duration, importance)
+        self.name_entry.delete(0, tk.END)
+        self.time_entry.delete(0, tk.END)
+        self.duration_entry.delete(0, tk.END)
 
-def VisualizeTimes(army_time_intervals):
-    fig, ax = plt.subplots()
-    ax.set_ylim(0, 1)
-    ax.set_yticks([])
+    def generate_schedule(self):
+        schedule = self.scheduler.schedule()
+        schedule_str = ""
+        for i, day in enumerate(schedule):
+            day_str = f"Day {i+1}:\n"
+            for c in day:
+                day_str += f"{c.name} at {c.time.strftime('%H:%M')} for {c.duration.seconds//3600} hours\n"
+            schedule_str += day_str + "\n"
+        self.total_hours_var.set(str(self.scheduler.total_hours()[1]) + " classes, " + str(self.scheduler.total_hours()[0].seconds//3600) + " hours")
+        tk.messagebox.showinfo("Schedule", schedule_str)
 
-    for interval in army_time_intervals:
-        start_time, end_time = interval
-        ax.hlines(y=0.5, xmin=start_time, xmax=end_time, linewidth=10)
+    def calculate_study_hours(self):
+        intensity = {"Low": 1, "Medium": 2, "High": 3}[self.study_intensity_var.get()]
+        study_hours = self.scheduler.study_hours(intensity)
+        study_hours_str = ""
+        for k, v in study_hours.items():
+            study_hours_str += f"{k}: {v.seconds//3600} hours\n"
+        self.study_hours_var.set(study_hours_str)
 
-    ax.set_xlim(0, 2400)
-    xtick_values = np.arange(0, 2500, 100)
-    xtick_labels = [f"{x:04d}" for x in xtick_values]
-    ax.set_xticks(xtick_values)
-    ax.set_xticklabels(xtick_labels)
+    def run(self):
+        self.window.mainloop()
 
-    ax.set_xlabel("Time (Military format)")
-    ax.set_title("Army Time Intervals")
-
-    plt.show()
-
-def input():
-    print(name_entry.get())
-    MonTimeVector = VectorizeInputStream(mon_entry.get("1.0",'end-1c'))
-    VisualizeTimes(MonTimeVector)
-
-# create a button to submit the form
-submit_button = customtkinter.CTkButton(inputframe, text="Calculate", command=input)
-submit_button.grid(row=10, column=1, sticky="W")
-
-#run main window loop
-inputwindow.geometry("700x500")
-inputwindow.mainloop()
+if __name__ == "__main__":
+    gui = ScheduleGUI()
+    gui.run()
